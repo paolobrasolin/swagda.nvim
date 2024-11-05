@@ -131,4 +131,7 @@ return {
 	parse = parse,
 	unparse = unparse,
 	distribute = distribute,
+	simplify = function(str)
+		return unparse(distribute(parse(str)))
+	end,
 }
