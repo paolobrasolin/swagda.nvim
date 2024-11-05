@@ -1,8 +1,8 @@
 -- nix-shell -p 'lua.withPackages(ps: with ps; [ lpeg inspect ])' entr
--- ls *.lua | entr lua test.lua
+-- find . -name "*.lua" | entr lua test.lua
 
 local inspect = require("inspect")
-local swagda = require("main")
+local swagda = require("lua.swagda.init")
 
 local sample =
 	"((ϵ (F.F₀ (G.F₀ (F.F₀ _))) D.∘ F.F₁ C.id D.∘ ϵ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) D.∘ F.F₁ (G.F₁ (ϵ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))) D.∘ F.F₁ (η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ G.F₁ (ϵ (F.F₀ (G.F₀ (F.F₀ _)))) C.∘ η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))) D.∘ ϵ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))))) D.∘ F.F₁ (η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))))) D.∘ F.F₁ (G.F₁ (((ϵ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))) D.∘ F.F₁ C.id D.∘ ϵ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))))) D.∘ F.F₁ (G.F₁ (ϵ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))))) D.∘ F.F₁ (η (G.F₀ (F.F₀ (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) C.∘ G.F₁ (D.id D.∘ F.F₁ (G.F₁ ((ϵ (F.F₀ (G.F₀ (F.F₀ _))) D.∘ F.F₁ f D.∘ ϵ (F.F₀ (G.F₀ (F.F₀ _)))) D.∘ F.F₁ (G.F₁ D.id) D.∘ F.F₁ (η (G.F₀ (F.F₀ _))))) D.∘ F.F₁ (η (G.F₀ (F.F₀ _)))) C.∘ η (G.F₀ (F.F₀ _))) D.∘ ϵ (F.F₀ (G.F₀ (F.F₀ _))))) D.∘ F.F₁ (η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))) D.∘ F.F₁ (G.F₁ (ϵ (F.F₀ (G.F₀ (F.F₀ _))))) D.∘ F.F₁ (η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _))))))) D.∘ F.F₁ (η (G.F₀ (F.F₀ (G.F₀ (F.F₀ _)))))"
