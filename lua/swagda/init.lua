@@ -118,6 +118,10 @@ local function distribute(ast)
 	end)(ast)
 end
 
+local function simplify(str)
+	return unparse(distribute(parse(str)))
+end
+
 -- function humanize(str)
 -- 	local out = str
 -- 	out = out:gsub(".F₀", "")
@@ -127,11 +131,26 @@ end
 -- 	return out
 -- end
 
+local function apply_to_selection(transformation)
+	-- FIXME: this acts wonky when selecting a line with V
+	local start_row, start_col = unpack(vim.api.nvim_buf_get_mark(0, "<"))
+	local end_row, end_col = unpack(vim.api.nvim_buf_get_mark(0, ">"))
+	local source_lines = vim.api.nvim_buf_get_text(0, start_row - 1, start_col, end_row - 1, end_col + 1, {})
+	local target_lines = vim.split(transformation(table.concat(source_lines, "\n")), "\n")
+	vim.api.nvim_buf_set_text(0, start_row - 1, start_col, end_row - 1, end_col + 1, target_lines)
+end
+
+local function setup()
+	vim.api.nvim_create_user_command("SwagdaSimplifySelection", function()
+		apply_to_selection(simplify)
+	end, { range = true })
+end
+
 return {
+	setup = setup,
+	apply_to_selection = apply_to_selection,
 	parse = parse,
 	unparse = unparse,
 	distribute = distribute,
-	simplify = function(str)
-		return unparse(distribute(parse(str)))
-	end,
+	simplify = simplify,
 }
