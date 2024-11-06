@@ -131,6 +131,16 @@ local function humanize(str)
 	return out
 end
 
+local function minifize(str)
+	local out = str
+	out = out:gsub("[() ]", "")
+	local parts = vim.split(out, "∘")
+	local filtered = vim.tbl_filter(function(part)
+		return not part:match("1$")
+	end, parts)
+	return table.concat(filtered, " ∘ ")
+end
+
 local function apply_to_selection(transformation)
 	-- FIXME: this acts wonky when selecting a line with V
 	local start_row, start_col = unpack(vim.api.nvim_buf_get_mark(0, "<"))
@@ -147,6 +157,9 @@ local function setup()
 	vim.api.nvim_create_user_command("SwagdaHumanizeSelection", function()
 		apply_to_selection(humanize)
 	end, { range = true })
+	vim.api.nvim_create_user_command("SwagdaMinifizeSelection", function()
+		apply_to_selection(minifize)
+	end, { range = true })
 end
 
 return {
@@ -157,4 +170,5 @@ return {
 	distribute = distribute,
 	simplify = simplify,
 	humanize = humanize,
+	minifize = minifize,
 }
