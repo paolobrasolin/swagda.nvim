@@ -122,14 +122,14 @@ local function simplify(str)
 	return unparse(distribute(parse(str)))
 end
 
--- function humanize(str)
--- 	local out = str
--- 	out = out:gsub(".F₀", "")
--- 	out = out:gsub(".F₁", "")
--- 	out = out:gsub("%f[%a]%a+%.id", "1")
--- 	out = out:gsub("%f[%a]%a+%.∘", "∘")
--- 	return out
--- end
+local function humanize(str)
+	local out = str
+	out = out:gsub(".F₀", "")
+	out = out:gsub(".F₁", "")
+	out = out:gsub("%f[%a][%a.]+%.id", "1")
+	out = out:gsub("%f[%a][%a.]+%.∘", "∘")
+	return out
+end
 
 local function apply_to_selection(transformation)
 	-- FIXME: this acts wonky when selecting a line with V
@@ -144,6 +144,9 @@ local function setup()
 	vim.api.nvim_create_user_command("SwagdaSimplifySelection", function()
 		apply_to_selection(simplify)
 	end, { range = true })
+	vim.api.nvim_create_user_command("SwagdaHumanizeSelection", function()
+		apply_to_selection(humanize)
+	end, { range = true })
 end
 
 return {
@@ -153,4 +156,5 @@ return {
 	unparse = unparse,
 	distribute = distribute,
 	simplify = simplify,
+	humanize = humanize,
 }
